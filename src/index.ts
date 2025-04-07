@@ -99,6 +99,7 @@ export class SoundEffectsPlayer {
             if (pitchVariation !== undefined && pitchVariation > 0) {
                 // Generate random pitch variation between [1-pitchVariation, 1+pitchVariation]
                 soundInstance.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
+                soundInstance.preservesPitch = false;
             }
 
             // Play the sound asynchronously to avoid blocking the main thread
