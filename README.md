@@ -49,10 +49,10 @@ const whooshSamples: SoundSample[] = [
 // Register samples for easy access
 player.registerSamples('whoosh', whooshSamples);
 
-// Play a random sample
-player.playRegisteredSample('whoosh');
+// Play a registered sample (will use the registered samples)
+player.playSoundSample('whoosh');
 
-// Or play a sample directly
+// Or play with specific samples directly
 player.playSoundSample('whoosh', whooshSamples);
 
 // Control volume
@@ -67,6 +67,9 @@ player.setMuted(true);
 ```typescript
 // Play with custom volume
 const sound = player.playSound('explosion', 0.8);
+
+// Play a sample with custom volume
+const sampleSound = player.playSoundSample('whoosh', undefined, 0.7);
 
 // Play looping sound
 const loopingSound = player.playSound('ambient', undefined, true);

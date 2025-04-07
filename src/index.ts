@@ -117,10 +117,17 @@ export class SoundEffectsPlayer {
      */
     playSoundSample(
         key: string,
-        samples: SoundSample[],
+        samples?: SoundSample[],
         volume?: number
     ): HTMLAudioElement | undefined {
         if (muted) return undefined;
+
+        // If samples not provided, check for registered samples
+        const samplesToUse = samples || this.sampleCollections[key];
+        if (!samplesToUse) {
+            console.warn(`No samples provided or registered for "${key}"`);
+            return undefined;
+        }
 
         // If the sound isn't cached, try to load it
         if (!audioCache.has(key) && key in this.soundPaths) {
@@ -134,7 +141,7 @@ export class SoundEffectsPlayer {
             soundInstance.volume = volume !== undefined ? volume : globalVolume;
 
             // Select a random sample
-            const randomSample = samples[Math.floor(Math.random() * samples.length)];
+            const randomSample = samplesToUse[Math.floor(Math.random() * samplesToUse.length)];
 
             // Set the start time to play only the selected sample
             soundInstance.currentTime = randomSample.start;
@@ -155,19 +162,6 @@ export class SoundEffectsPlayer {
         }
 
         console.warn(`Sound "${key}" not found in audio cache`);
-        return undefined;
-    }
-
-    /**
-     * Play a registered sample collection
-     * @param key - The sound key
-     * @param volume - Optional volume override
-     */
-    playRegisteredSample(key: string, volume?: number): HTMLAudioElement | undefined {
-        if (key in this.sampleCollections) {
-            return this.playSoundSample(key, this.sampleCollections[key], volume);
-        }
-        console.warn(`No sample collection registered for "${key}"`);
         return undefined;
     }
 
