@@ -1,0 +1,40 @@
+{
+  "name": "sfx-player",
+  "version": "1.0.0",
+  "description": "A utility for loading and playing sound effects with sample indexing",
+  "keywords": [
+    "sound",
+    "audio",
+    "effects",
+    "web",
+    "typescript",
+    "sample",
+    "samples",
+    "game",
+    "sfx"
+  ],
+  "homepage": "https://github.com/jkarenko/sfx-player#readme",
+  "bugs": {
+    "url": "https://github.com/jkarenko/sfx-player/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkarenko/sfx-player.git"
+  },
+  "license": "MIT",
+  "author": "Juho Karenko <juho.karenko@gmail.com> (https://github.com/jkarenko)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "prepare": "npm run clean && npm run build",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  }
+}
