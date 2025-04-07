@@ -77,9 +77,10 @@ export class SoundEffectsPlayer {
      * @param key - The identifier for the sound to play
      * @param volume - Optional volume override (0.0 to 1.0)
      * @param loop - Whether the sound should loop
+     * @param pitchVariation - Optional pitch randomization factor (0.0 to 1.0)
      * @returns The audio element that's playing, or undefined if the sound couldn't be played
      */
-    playSound(key: string, volume?: number, loop: boolean = false): HTMLAudioElement | undefined {
+    playSound(key: string, volume?: number, loop: boolean = false, pitchVariation?: number): HTMLAudioElement | undefined {
         if (muted) return undefined;
 
         // If the sound isn't cached, try to load it
@@ -93,6 +94,12 @@ export class SoundEffectsPlayer {
             const soundInstance = new Audio(audio.src);
             soundInstance.volume = volume !== undefined ? volume : globalVolume;
             soundInstance.loop = loop;
+
+            // Apply pitch randomization if specified
+            if (pitchVariation !== undefined && pitchVariation > 0) {
+                // Generate random pitch variation between [1-pitchVariation, 1+pitchVariation]
+                soundInstance.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
+            }
 
             // Play the sound asynchronously to avoid blocking the main thread
             setTimeout(() => {
@@ -113,12 +120,14 @@ export class SoundEffectsPlayer {
      * @param key - The identifier for the sound to play
      * @param samples - Array of samples with start times and durations
      * @param volume - Optional volume override (0.0 to 1.0)
+     * @param pitchVariation - Optional pitch randomization factor (0.0 to 1.0)
      * @returns The audio element that's playing, or undefined if the sound couldn't be played
      */
     playSoundSample(
         key: string,
         samples?: SoundSample[],
-        volume?: number
+        volume?: number,
+        pitchVariation?: number
     ): HTMLAudioElement | undefined {
         if (muted) return undefined;
 
@@ -139,6 +148,12 @@ export class SoundEffectsPlayer {
             // Clone the audio to allow overlapping sounds
             const soundInstance = new Audio(audio.src);
             soundInstance.volume = volume !== undefined ? volume : globalVolume;
+
+            // Apply pitch randomization if specified
+            if (pitchVariation !== undefined && pitchVariation > 0) {
+                // Generate random pitch variation between [1-pitchVariation, 1+pitchVariation]
+                soundInstance.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
+            }
 
             // Select a random sample
             const randomSample = samplesToUse[Math.floor(Math.random() * samplesToUse.length)];
